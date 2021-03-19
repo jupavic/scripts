@@ -1,0 +1,47 @@
+!#/bin/bash
+
+## This script executes sequence of git commands which result with current branch being updated with latest master changes and all commits squashed into 1 single commit
+
+FEATURE_BRANCH_NAME=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)
+
+## updating current branch with latest master changes
+git fetch && git merge origin/master
+
+&&
+
+## updating local master branch with latest changes
+git checkout origin/master && git pull origin master 
+
+&& 
+
+## checking out temporary branch used for squashing
+git checkout -b temp-${FEATURE_BRANCH_NAME}
+
+&&
+
+## merging squashed feature branch into temporary branch
+git merge --squash $FEATURE_BRANCH_NAME
+
+&&
+
+## deleting feature branch with unsquashed commits from local repository
+git branch -D $FEATURE_BRANCH_NAME
+
+&&
+
+## creating new feature branch from our temporary branch with same name as before
+git checkout -b $FEATURE_BRANCH_NAME
+
+&&
+
+## force pushing squashed feature branch to remote. Can be optionally commented out
+git push origin +$FEATURE_BRANCH_NAME
+
+&&
+
+## deleting temporary branch
+git branch -D temp-${FEATURE_BRANCH_NAME}
+
+&&
+
+echo "updated, squashed and force pushed to remote"
