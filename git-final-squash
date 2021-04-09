@@ -4,16 +4,16 @@
 
 FEATURE_BRANCH_NAME=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)
 
-if [[ $# -ne 1 ]] ; then
-    echo "Please provide commit message of squashed changes as first arg to script"
+if [[ $# -ne 2 ]] ; then
+    echo "Please provide commit message of squashed changes as first arg to script and parent branch name as second arg"
     exit 1
 fi
 
 ## updating current branch with latest master changes
-git fetch && git merge origin/master || exit 1
+git fetch && git merge origin/"$2" || exit 1
 
 ## updating local master branch with latest changes
-git checkout origin/master && git pull origin master || exit 1
+git checkout origin/"$2" && git pull origin "$2" || exit 1
 
 ## checking out temporary branch used for squashing
 git checkout -b temp-${FEATURE_BRANCH_NAME} || exit 1
