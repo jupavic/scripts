@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ## This script executes sequence of git commands which result with current branch being updated with latest master changes and all commits squashed into 1 single commit
 
