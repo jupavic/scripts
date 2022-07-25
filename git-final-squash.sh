@@ -36,5 +36,5 @@ git checkout -b $FEATURE_BRANCH_NAME || exit 1
 ## deleting temporary branch
 git branch -D temp-${FEATURE_BRANCH_NAME} || exit 1
 
-echo "updated, squashed and force pushed to remote"
+echo "updated and squashed, you need to force push to remote"
 exit 0
